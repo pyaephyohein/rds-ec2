@@ -42,3 +42,17 @@ resource "aws_db_instance" "rds_test_database" {
   // variable, which is currently set to true.
   skip_final_snapshot    = var.settings.database.skip_final_snapshot
 }
+
+
+provider "mysql" {
+  endpoint = "${aws_db_instance.rds_test_database.endpoint}"
+  username = "${aws_db_instance.rds_test_database.username}"
+  password = "${aws_db_instance.rds_test_database.password}"
+}
+
+# Create a second database, in addition to the "initial_db" created
+# by the aws_db_instance resource above.  
+resource "mysql_database" "apps" {
+  count = length(var.databases)
+  name  = var.databases[count.index]
+}

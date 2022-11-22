@@ -103,3 +103,8 @@ variable "db_password" {
   sensitive   = true
   default = "mysql_password"
 }
+
+variable "databases" {
+  type = list(string)
+  default = ["neo", "trinity", "morpheus"]
+}
